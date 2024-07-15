@@ -1,8 +1,7 @@
   import ChatItem from "./ChatItem";
 
-  const ChatList = ({ users }) => {
-    console.log("dang ben chat list");
-    console.log("users la", users);
+  const ChatList = ({ users,saveUsername }) => {
+
 
     // Kiểm tra nếu users là null hoặc undefined thì trả về một phần tử rỗng
     if (!users) {
@@ -12,7 +11,7 @@
     return (
       <>
         {users.map((item, index) => (
-          <ChatItem key={index} item={item} />
+          <ChatItem key={index} item={item} saveUsername={saveUsername}/>
         ))}
       </>
     );

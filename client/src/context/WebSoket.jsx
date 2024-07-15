@@ -7,6 +7,7 @@ import {
   useCallback,
 } from "react";
 const WebSocketContext = createContext();
+
 const WebSocketProvider = ({ children }) => {
   const [connection, setConnection] = useState(false);
   const wsRef = useRef(null);
@@ -90,16 +91,55 @@ const WebSocketProvider = ({ children }) => {
         },
       };
       SendMessage(getuser_msg);
-      if(connection) {
+      if (connection) {
         wsRef.current.addEventListener("message", (event) => {
           const res = JSON.parse(event.data);
           resolve(res.data);
           wsRef.current.removeEventListener("message", this);
         });
       }
-      console.log("chay 1 lan ben websocket");
     });
   }, [connection]);
+
+  const SendChatPeople = (people) => {
+    const sendChat_msg = {
+      action: "onchat",
+      data: {
+        event: "GET_PEOPLE_CHAT_MES",
+        data: {
+          name: people,
+          page: 1,
+        },
+      },
+    };
+    SendMessage(sendChat_msg);
+  };
+
+  const GetChatPeople = useCallback(
+    (people) => {
+      return new Promise((resolve) => {
+        const getChatPeople_msg = {
+          action: "onchat",
+          data: {
+            event: "GET_PEOPLE_CHAT_MES",
+            data: {
+              name: people,
+              page: 1,
+            },
+          },
+        };
+        SendMessage(getChatPeople_msg);
+        if (connection) {
+          wsRef.current.addEventListener("message", (event) => {
+            const res = JSON.parse(event.data);
+            resolve(res.data);
+            wsRef.current.removeEventListener("message", this);
+          });
+        }
+      });
+    },
+    [connection]
+  );
 
   const value = {
     connection,
@@ -112,6 +152,8 @@ const WebSocketProvider = ({ children }) => {
     RegisterContext,
     LoginContext,
     LogoutContext,
+    SendChatPeople,
+    GetChatPeople,
   };
   return (
     <WebSocketContext.Provider value={value}>
