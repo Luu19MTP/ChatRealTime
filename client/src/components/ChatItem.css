@@ -1,0 +1,20 @@
+.user__item {
+  background-color: #F6F6FE;
+  .avatar {
+    color: black;
+  }
+  .info {
+    .name {
+      color: black;
+      
+    }
+    .message {
+      color: #6f7586;
+      font-size: 12px;
+    }
+  }
+  .time {
+    color: #6f7586;
+    align-self: flex-start;
+  }
+}
