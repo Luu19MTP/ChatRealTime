@@ -1,8 +1,9 @@
 import "./ChatItem.css";
 
-const ChatItem = ({ user, setSelectedUser }) => {
-  const handleClick = () => {
-    setSelectedUser(user);
+const ChatItem = ({ item, saveUsername }) => {
+  // console.log("info_user", props);
+  const handleClick = (e) => {
+    saveUsername(item.name);
   };
 
   return (
@@ -15,7 +16,7 @@ const ChatItem = ({ user, setSelectedUser }) => {
           <i className="fa-solid fa-circle-user fs-1 p-0"></i>
         </div>
         <div className="info flex-grow-1">
-          <div className="name">{user.name}</div>
+          <div className="name">{item.name}</div>
           <div className="message">message</div>
         </div>
         <div className="time">

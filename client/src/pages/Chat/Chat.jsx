@@ -2,18 +2,22 @@ import ChatList from "../../components/ChatList";
 import "./Chat.css";
 import { WebSocketContext } from "../../context/WebSoket";
 import { useContext, useEffect, useState } from "react";
+import ChatContent from "../../components/ChatContent";
 
 const Chat = () => {
   const { connection, GetUserList } = useContext(WebSocketContext);
   const [users, setUsers] = useState(null);
   const [x, setX] = useState(0);
+  const [username, setUsername] = useState(null);
+  function handleClickToSaveName(username) {
+    setUsername(username);
+  }
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const result = await GetUserList();
         setUsers(result);
-        console.log("result ben client la:", result); // Sử dụng result mới nhất ở đây
       } catch (error) {
         console.error("Lỗi khi lấy danh sách người dùng:", error);
       }
@@ -22,38 +26,30 @@ const Chat = () => {
     if (connection) {
       fetchData();
     }
-
-    console.log("chay 1 lan ben chat client");
   }, [connection, GetUserList, x]);
 
+  // console.log(users);
   return (
-    <div className="container-fluid d-flex rounded-2 border p-1 gap-1">
-      <div className="left col-3 p-2 border-end">
-        <input
-          className="form-control me-2"
-          type="search"
-          placeholder="Search"
-          aria-label="Search"
-        />
-        <ChatList users={users} />
-      </div>
-      <div className="right col-7 d-flex flex-column">
-        <div className="info__chat border-bottom">
-          <div className="avatar">
-            <i className="fa-solid fa-circle-user fs-2 p-0"></i>
-          </div>
-          <div className="flex-grow-1">
-            <div className="type">
-              <i className="fa-solid fa-people-group"></i>
-            </div>
-          </div>
-          <div className="detail">
-            <i className="fa-solid fa-circle-info"></i>
-          </div>
-        </div>
-        <div className="messages-container flex-grow-1"></div>
-        <div className="input-container d-flex p-2">
-          <ChatList users={users} />
+    <>
+      <button
+        onClick={() => {
+          setX(x + 1);
+        }}
+      >
+        {x}
+      </button>
+      <div
+        id="wrapper"
+        className="container-fluid d-flex rounded-2 border p-1 gap-1"
+      >
+        <div className="left col-3 p-2 border-end">
+          <input
+            className="form-control me-2"
+            type="search"
+            placeholder="Search"
+            aria-label="Search"
+          />
+          <ChatList users={users} saveUsername={handleClickToSaveName} />
         </div>
         <div
           className="border-end right col-7 d-flex flex-column"
@@ -64,7 +60,7 @@ const Chat = () => {
               <i className="fa-solid fa-circle-user fs-2 p-0"></i>
             </div>
             <div className="flex-grow-1">
-              <div className="name">name</div>
+              <div className="name">{username}</div>
               <div className="type">
                 <i className="fa-solid fa-people-group"></i>
               </div>
@@ -73,12 +69,13 @@ const Chat = () => {
               <i className="fa-solid fa-circle-info"></i>
             </div>
           </div>
+          {username !== null ? <ChatContent name={username} /> : null}
         </div>
       </div>
       <div className="col-2">
         <div className="member border-bottom d-flex">MEMBER</div>
       </div>
-    </div>
+    </>
   );
 };
 
