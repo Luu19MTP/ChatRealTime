@@ -22,6 +22,7 @@ const WebSocketProvider = ({ children }) => {
     ws.addEventListener("open", () => {
       console.log("WebSocket connection opened");
     });
+    // dữ liệu trả về là json
     ws.addEventListener("message", (event) => {
       const res = JSON.parse(event.data);
       setResponse(res);
@@ -90,7 +91,7 @@ const WebSocketProvider = ({ children }) => {
         },
       };
       SendMessage(getuser_msg);
-      if(connection) {
+      if (connection) {
         wsRef.current.addEventListener("message", (event) => {
           const res = JSON.parse(event.data);
           resolve(res.data);
@@ -100,6 +101,8 @@ const WebSocketProvider = ({ children }) => {
       console.log("chay 1 lan ben websocket");
     });
   }, [connection]);
+
+  
 
   const value = {
     connection,

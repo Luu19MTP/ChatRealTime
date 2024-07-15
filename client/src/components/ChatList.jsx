@@ -1,8 +1,6 @@
+import ChatItem from "./ChatItem";
 
-
-  import ChatItem from "./ChatItem";
-
-  const ChatList = ({ users }) => {
+  const ChatList = ({ users,saveUsername }) => {
     console.log("dang ben chat list");
     console.log("users la", users);
 
@@ -14,7 +12,7 @@
     return (
       <>
         {users.map((item, index) => (
-          <ChatItem key={index} item={item} />
+          <ChatItem key={index} item={item} saveUsername={saveUsername}/>
         ))}
       </>
     );
