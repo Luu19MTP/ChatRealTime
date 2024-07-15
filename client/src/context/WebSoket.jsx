@@ -219,13 +219,12 @@ const WebSocketProvider = ({ children }) => {
       };
       SendMessage(getuser_msg);
       if (connection) {
-        wsRef.current.addEventListener("message", function handler(event) {
+        wsRef.current.addEventListener("message", (event) => {
           const res = JSON.parse(event.data);
           resolve(res.data);
-          wsRef.current.removeEventListener("message", handler);
+          wsRef.current.removeEventListener("message", this);
         });
       }
-      console.log("chay 1 lan ben websocket");
     });
   }, [connection]);
 
@@ -241,6 +240,32 @@ const WebSocketProvider = ({ children }) => {
     };
     SendMessage(create_room_msg);
   };
+
+  const GetChatPeople = useCallback(
+    (people) => {
+      return new Promise((resolve) => {
+        const getChatPeople_msg = {
+          action: "onchat",
+          data: {
+            event: "GET_PEOPLE_CHAT_MES",
+            data: {
+              name: people,
+              page: 1,
+            },
+          },
+        };
+        SendMessage(getChatPeople_msg);
+        if (connection) {
+          wsRef.current.addEventListener("message", (event) => {
+            const res = JSON.parse(event.data);
+            resolve(res.data);
+            wsRef.current.removeEventListener("message", this);
+          });
+        }
+      });
+    },
+    [connection]
+  );
 
   const JoinRoom = (roomName) => {
     const join_room_msg = {
@@ -268,6 +293,7 @@ const WebSocketProvider = ({ children }) => {
     LogoutContext,
     CreateRoom,
     JoinRoom,
+    GetChatPeople,
   };
 
   return (

@@ -1,9 +1,10 @@
 import "./ChatItem.css";
-const ChatItem = ({item,saveUsername}) => {
+
+
+const ChatItem = ({ item, saveUsername }) => {
   // console.log("info_user", props);
-  console.log("dang ben chat item")
   const handleClick = (e) => {
-    saveUsername(item.name)
+    saveUsername(item.name);
   };
   return (
     <>

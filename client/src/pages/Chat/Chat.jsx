@@ -1,3 +1,4 @@
+
 // import { useContext, useEffect, useState } from "react";
 // import ChatList from "../../components/ChatList";
 // import "./Chat.css";
@@ -98,6 +99,7 @@ const Chat = () => {
   const [users, setUsers] = useState(null);
   const [x, setX] = useState(0);
   const [username, setUsername] = useState(null);
+
   const [roomName, setRoomName] = useState("");
   const [rooms, setRooms] = useState([]);
   const [error, setError] = useState("");
@@ -111,7 +113,6 @@ const Chat = () => {
       try {
         const result = await GetUserList();
         setUsers(result);
-        console.log("result ben client la:", result); // Sử dụng result mới nhất ở đây
       } catch (error) {
         console.error("Lỗi khi lấy danh sách người dùng:", error);
       }
@@ -120,8 +121,6 @@ const Chat = () => {
     if (connection) {
       fetchData();
     }
-
-    console.log("chay 1 lan ben chat client");
   }, [connection, GetUserList, x]);
 
   const handleCreateRoom = () => {
@@ -222,11 +221,11 @@ const Chat = () => {
               <i className="fa-solid fa-circle-info"></i>
             </div>
           </div>
-          <ChatContent username={username} />
+          {username !== null ? <ChatContent name={username} /> : null}
         </div>
-        <div className="col-2">
-          <div className="member border-bottom d-flex">MEMBER</div>
-        </div>
+      </div>
+      <div className="col-2">
+        <div className="member border-bottom d-flex">MEMBER</div>
       </div>
     </>
   );

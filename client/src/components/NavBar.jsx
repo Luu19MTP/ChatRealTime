@@ -29,6 +29,7 @@ const NavBar = () => {
       setName(localStorage.getItem("username"));
     }
   }, []);
+
   return (
     <Navbar expand="lg" className="bg-body-tertiary">
       <Container>

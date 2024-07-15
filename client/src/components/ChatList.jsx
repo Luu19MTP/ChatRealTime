@@ -1,8 +1,9 @@
-import ChatItem from "./ChatItem";
+
+  import ChatItem from "./ChatItem";
 
   const ChatList = ({ users,saveUsername }) => {
-    console.log("dang ben chat list");
-    console.log("users la", users);
+
+
 
     // Kiểm tra nếu users là null hoặc undefined thì trả về một phần tử rỗng
     if (!users) {
