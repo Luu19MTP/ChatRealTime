@@ -1,36 +1,68 @@
-#wrapper {
-  background-color: #ffffff;
-  overflow-x: hidden;
-  .left {
-    padding-right: 5px;
-    margin-right: 5px;
-    input {
-      background-color: #f3f3f3;
-      color: #000;
-      margin-bottom: 10px;
-      border: none;
-    }
-  }
-}
-/* 
-body {
-  background-color: #353647;
-} */
-.info__chat {
-  height: 50px;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  padding: 5px;
+.container-fluid {
+  height: 100vh;
 }
 
-.right {
-  padding-right: 15px;
+.left, .right, .col-2 {
+  overflow-y: auto;
 }
-.type {
-  font-size: 12px;
-}
-.member {
-  height: 50px;
+
+.info__chat {
+  display: flex;
   align-items: center;
+  padding: 10px;
+}
+
+.avatar {
+  margin-right: 10px;
+}
+
+.name {
+  font-weight: bold;
+}
+
+.type, .detail {
+  margin-left: auto;
+}
+
+.messages-container {
+  overflow-y: auto;
+  padding: 10px;
+}
+
+.message {
+  border-radius: 10px;
+  padding: 10px;
+  margin-bottom: 5px;
+  max-width: fit-content;
+}
+
+.my-message {
+  align-self: flex-end;
+  background-color: #DCF8C6;
+}
+
+.other-message {
+  align-self: flex-start;
+  background-color: #FFF;
+}
+
+.input-container {
+  border-top: 1px solid #ccc;
+  align-items: center;
+}
+
+.input-container input {
+  border: none;
+  outline: none;
+  padding: 10px;
+  margin-right: 10px;
+}
+
+.btn {
+  cursor: pointer;
+  padding: 10px;
+}
+
+.btn i {
+  font-size: 1.5rem;
 }

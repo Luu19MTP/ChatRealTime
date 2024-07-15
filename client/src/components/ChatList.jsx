@@ -1,6 +1,8 @@
+
   import ChatItem from "./ChatItem";
 
   const ChatList = ({ users,saveUsername }) => {
+
 
 
     // Kiểm tra nếu users là null hoặc undefined thì trả về một phần tử rỗng
