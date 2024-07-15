@@ -2,24 +2,30 @@ import { useContext, useEffect, useState } from "react";
 import ChatList from "../../components/ChatList";
 import "./Chat.css";
 import { WebSocketContext } from "../../context/WebSoket";
-const Chat = () => {
-  console.log("-------------------------------------------");
 
+const Chat = () => {
   const { connection, GetUserList } = useContext(WebSocketContext);
   const [users, setUsers] = useState(null);
   const [x, setX] = useState(0);
+
   useEffect(() => {
-    // Kết nối WebSocket đã được thiết lập, có thể thực hiện các hoạt động với nó
-    const promise = GetUserList();
-    promise.then((result) => {
-      setUsers(result);
-      console.log("result ben client la:", users);
-    });
+    const fetchData = async () => {
+      try {
+        const result = await GetUserList();
+        setUsers(result);
+        console.log("result ben client la:", result); // Sử dụng result mới nhất ở đây
+      } catch (error) {
+        console.error("Lỗi khi lấy danh sách người dùng:", error);
+      }
+    };
+
+    if (connection) {
+      fetchData();
+    }
 
     console.log("chay 1 lan ben chat client");
-  }, [x]);
+  }, [connection, GetUserList, x]);
 
-  console.log("users", users);
   return (
     <>
       <button
@@ -40,7 +46,7 @@ const Chat = () => {
             placeholder="Search"
             aria-label="Search"
           />
-          <ChatList />
+          <ChatList users={users} />
         </div>
         <div
           className="border-end right col-7 d-flex flex-column"
