@@ -126,52 +126,30 @@
 import { useState } from "react";
 import ChatList from "../../components/ChatList";
 import "./Chat.css";
+import { WebSocketContext } from "../../context/WebSoket";
 
 const Chat = () => {
-  const [users, setUsers] = useState([
-    {
-      name: "21130447",
-      messages: [
-        { text: "Hello there!", isMyMessage: false },
-        { text: "Hi!", isMyMessage: true },
-      ],
-    },
-    {
-      name: "zzz",
-      messages: [
-        { text: "Hey!", isMyMessage: false },
-        { text: "What's up?", isMyMessage: true },
-      ],
-    },
-    {
-      name: "minh",
-      messages: [
-        { text: "Good morning!", isMyMessage: false },
-        { text: "Morning!", isMyMessage: true },
-      ],
-    },
-  ]);
+  const { connection, GetUserList } = useContext(WebSocketContext);
+  const [users, setUsers] = useState(null);
+  const [x, setX] = useState(0);
 
-  const [selectedUser, setSelectedUser] = useState(null);
-  const [message, setMessage] = useState('');
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const result = await GetUserList();
+        setUsers(result);
+        console.log("result ben client la:", result); // Sử dụng result mới nhất ở đây
+      } catch (error) {
+        console.error("Lỗi khi lấy danh sách người dùng:", error);
+      }
+    };
 
-  const handleSend = () => {
-    if (message.trim() && selectedUser) {
-      const newMessage = { text: message, isMyMessage: true };
-      const updatedMessages = [...selectedUser.messages, newMessage];
-      const updatedUsers = users.map(user =>
-        user.name === selectedUser.name ? { ...user, messages: updatedMessages } : user
-      );
-      setUsers(updatedUsers);
-      setMessage('');
+    if (connection) {
+      fetchData();
     }
-  };
 
-  const handleKeyPress = (e) => {
-    if (e.key === 'Enter') {
-      handleSend();
-    }
-  };
+    console.log("chay 1 lan ben chat client");
+  }, [connection, GetUserList, x]);
 
   return (
     <div className="container-fluid d-flex rounded-2 border p-1 gap-1">
@@ -218,8 +196,25 @@ const Chat = () => {
             onChange={(e) => setMessage(e.target.value)}
             onKeyPress={handleKeyPress}
           />
-          <div className="btn" onClick={handleSend}>
-            <i className="fa-solid fa-paper-plane"></i>
+          <ChatList users={users} />
+        </div>
+        <div
+          className="border-end right col-7 d-flex flex-column"
+          style={{ height: 500 }}
+        >
+          <div className="info__chat border-bottom">
+            <div className="avatar">
+              <i className="fa-solid fa-circle-user fs-2 p-0"></i>
+            </div>
+            <div className="flex-grow-1">
+              <div className="name">name</div>
+              <div className="type">
+                <i className="fa-solid fa-people-group"></i>
+              </div>
+            </div>
+            <div className="detail">
+              <i className="fa-solid fa-circle-info"></i>
+            </div>
           </div>
         </div>
       </div>
