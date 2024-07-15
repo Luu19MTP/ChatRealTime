@@ -1,21 +1,21 @@
 import "./ChatItem.css";
-const ChatItem = ({item}) => {
-  // console.log("info_user", props);
-  console.log("dang ben chat item")
-  const handleClick = (e) => {
-    console.log(e.target);
+
+const ChatItem = ({ user, setSelectedUser }) => {
+  const handleClick = () => {
+    setSelectedUser(user);
   };
+
   return (
     <>
       <div
         className="user__item rounded-1 p-1 d-flex gap-3 text-dark align-items-center border-bottom mt-2"
-        onClick={(e) => handleClick(e)}
+        onClick={handleClick}
       >
         <div className="avatar">
           <i className="fa-solid fa-circle-user fs-1 p-0"></i>
         </div>
         <div className="info flex-grow-1">
-          <div className="name">{item.name}</div>
+          <div className="name">{user.name}</div>
           <div className="message">message</div>
         </div>
         <div className="time">
