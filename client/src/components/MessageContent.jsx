@@ -1,5 +1,5 @@
-import { useContext, useEffect, useState } from "react";
-import { WebSocketContext, WebSocketProvider } from "../context/WebSoket";
+import React, { useContext, useEffect, useState, useRef } from "react";
+import { WebSocketContext } from "../context/WebSoket";
 import MessageList from "./MessageList";
 
 export default function ChatContent({ name }) {
@@ -7,6 +7,8 @@ export default function ChatContent({ name }) {
   const [message, setMessage] = useState("");
   const [chats, setChats] = useState(null);
   const { connection, GetChatPeople } = useContext(WebSocketContext);
+
+  const inputRef = useRef(""); // Khởi tạo useRef với giá trị ban đầu là null
 
   useEffect(() => {
     const fetchData = async () => {
@@ -23,17 +25,18 @@ export default function ChatContent({ name }) {
     }
   }, [connection, name]);
 
-  console.log("name", name);
-
   const handleSend = () => {
-    if (message.trim()) {
+    const currentMessage = inputRef.current.value; // Lấy giá trị từ inputRef
+    if (currentMessage.trim()) {
       // Gửi tin nhắn của người dùng
-      setMessages([...messages, { text: message, isMyMessage: true }]);
-      setMessage("");
+      setMessages([...messages, { text: currentMessage, isMyMessage: true }]);
+      inputRef.current.value = ""; // Reset giá trị của input
     }
   };
 
-  console.log("chats", chats);
+  const currentMessage = inputRef.current.value; // Lấy giá trị từ inputRef
+
+  console.log(currentMessage);
 
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
@@ -44,8 +47,7 @@ export default function ChatContent({ name }) {
   if (!chats) {
     return <div>Loading...</div>; // Hoặc hiển thị một thông báo tải dữ liệu
   }
-  const textdecoder = new TextDecoder();
-  // let x = new TextDecoder();
+
   return (
     <>
       <div className="p-2 flex-grow-1 d-flex flex-column">
@@ -68,16 +70,15 @@ export default function ChatContent({ name }) {
         <MessageList chats={chats} />
       </div>
 
-      {/* <div className="chats"></div> */}
-      {/* send msg */}
       <div className="d-flex p-2">
         <input
           className="flex-fill rounded"
           type="text"
           placeholder="Type a message"
           value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          onKeyPress={handleKeyPress}
+          ref={inputRef} // Gán ref vào input
+          onChange={(e) => (inputRef.current = e.target.value)} // Cập nhật state message khi input thay đổi
+          onKeyPress={handleKeyPress} // Xử lý sự kiện nhấn phím Enter
         />
         <div className="btn" onClick={handleSend}>
           <i className="fa-solid fa-paper-plane"></i>

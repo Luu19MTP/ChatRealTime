@@ -86,37 +86,10 @@ const WebSocketProvider = ({ children }) => {
     SendMessage(logout_msg);
   };
 
-  // const Relogin = () => {
-  //   let username = JSON.parse(localStorage.getItem("username")) + "";
-  //   let token = JSON.parse(localStorage.getItem("login_code"));
-  //   let login_code = token.RE_LOGIN_CODE;
-  //   console.log(username, login_code);
-  //   const relogin_msg = {
-  //     action: "onchat",
-  //     data: {
-  //       event: "RE_LOGIN",
-  //       data: {
-  //         user: username,
-  //         code: login_code,
-  //       },
-  //     },
-  //   };
-  //   SendMessage(relogin_msg);
-  //   if (connection) {
-  //     wsRef.current.addEventListener("message", (event) => {
-  //       const res = JSON.parse(event.data);
-  //       console.log("res", res);
-  //       setLogin_code(res.event)
-  //       wsRef.current.removeEventListener("message", this);
-  //     });
-  //   }
-  // };
-
   const Relogin = useCallback(() => {
     let username = JSON.parse(localStorage.getItem("username")) + "";
     let token = JSON.parse(localStorage.getItem("login_code"));
     let login_code = token.RE_LOGIN_CODE;
-    console.log(username, login_code);
     const relogin_msg = {
       action: "onchat",
       data: {
@@ -199,6 +172,20 @@ const WebSocketProvider = ({ children }) => {
     [connection]
   );
 
+  const SendChatPeople = (user, msg) => {
+    const msg_people = {
+      action: "onchat",
+      data: {
+        event: "SEND_CHAT",
+        data: {
+          type: "people",
+          to: user,
+          mes: msg,
+        },
+      },
+    };
+    SendMessage(msg_people);
+  };
   const JoinRoom = (roomName) => {
     const join_room_msg = {
       action: "onchat",
@@ -229,6 +216,7 @@ const WebSocketProvider = ({ children }) => {
     CreateRoom,
     JoinRoom,
     GetChatPeople,
+    SendChatPeople,
   };
 
   return (
