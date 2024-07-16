@@ -5,11 +5,12 @@ import { WebSocketContext } from "../../context/WebSoket";
 import ChatContent from "../../components/ChatContent";
 
 const Chat = () => {
-  const { connection, GetUserList, CreateRoom, JoinRoom } = useContext(WebSocketContext);
+  const { connection, GetUserList, CreateRoom, JoinRoom, Relogin, login_code } =
+    useContext(WebSocketContext);
   const [users, setUsers] = useState(null);
   const [x, setX] = useState(0);
   const [username, setUsername] = useState(null);
-
+  const [token, setToken] = useState(null);
   const [roomName, setRoomName] = useState("");
   const [rooms, setRooms] = useState([]);
   const [error, setError] = useState("");
@@ -18,10 +19,13 @@ const Chat = () => {
     setUsername(username);
   }
 
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         const result = await GetUserList();
+        const test = await Relogin();
+
         setUsers(result);
       } catch (error) {
         console.error("Lỗi khi lấy danh sách người dùng:", error);
@@ -35,7 +39,7 @@ const Chat = () => {
 
   const handleCreateRoom = () => {
     if (roomName) {
-      const userNames = users ? users.map(user => user.username) : [];
+      const userNames = users ? users.map((user) => user.username) : [];
       if (rooms.includes(roomName) || userNames.includes(roomName)) {
         setError("Tên phòng đã tồn tại");
       } else {
@@ -53,8 +57,6 @@ const Chat = () => {
       setRoomName("");
     }
   };
-
-  console.log(username);
 
   return (
     <>

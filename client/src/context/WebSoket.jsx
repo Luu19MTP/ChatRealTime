@@ -16,13 +16,13 @@ const WebSocketProvider = ({ children }) => {
   const [name, setName] = useState(null);
   const [users, setUsers] = useState(null);
   const [flag, setFlag] = useState(false);
+  const [login_code, setLogin_code] = useState(null);
   useEffect(() => {
     const ws = new WebSocket("ws://140.238.54.136:8080/chat/chat");
     wsRef.current = ws;
     setConnection(true);
     ws.addEventListener("open", () => {
       console.log("WebSocket connection opened");
-      
     });
 
     ws.addEventListener("message", (event) => {
@@ -85,32 +85,30 @@ const WebSocketProvider = ({ children }) => {
     SendMessage(logout_msg);
   };
 
-  const Relogin = useCallback(
-    (re_login_code) => {
-      return new Promise((resolve) => {
-        const relogin_msg = {
-          status: "success",
-          event: "RE_LOGIN",
-          data: {
-            RE_LOGIN_CODE: re_login_code,
-          },
-        };
-        SendMessage(relogin_msg);
-        if (connection) {
-          wsRef.current.addEventListener("message", (event) => {
-            const res = JSON.parse(event.data);
-            if (res.status === "success" && res.event === "RE_LOGIN") {
-              localStorage.setItem("login_code", res.data.RE_LOGIN_CODE);
-              setFlag(true);
-            }
-            resolve(res.data);
-            wsRef.current.removeEventListener("message", this);
-          });
-        }
+  const Relogin = () => {
+    let username = JSON.parse(localStorage.getItem("username")) + "";
+    let token = JSON.parse(localStorage.getItem("login_code"));
+    let login_code = token.RE_LOGIN_CODE;
+    console.log(username, login_code);
+    const relogin_msg = {
+      action: "onchat",
+      data: {
+        event: "RE_LOGIN",
+        data: {
+          user: username,
+          code: login_code,
+        },
+      },
+    };
+    SendMessage(relogin_msg);
+    if (connection) {
+      wsRef.current.addEventListener("message", (event) => {
+        const res = JSON.parse(event.data);
+        console.log("res", res);
+        wsRef.current.removeEventListener("message", this);
       });
-    },
-    [connection, flag]
-  );
+    }
+  };
 
   const GetUserList = useCallback(() => {
     return new Promise((resolve) => {
@@ -184,6 +182,7 @@ const WebSocketProvider = ({ children }) => {
   };
 
   const value = {
+    login_code,
     connection,
     response,
     name,
