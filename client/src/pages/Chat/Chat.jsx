@@ -5,8 +5,7 @@ import { WebSocketContext } from "../../context/WebSoket";
 import ChatContent from "../../components/ChatContent";
 
 const Chat = () => {
-  const { connection, GetUserList, CreateRoom, JoinRoom, flag, Relogin } =
-    useContext(WebSocketContext);
+  const { connection, GetUserList, CreateRoom, JoinRoom } = useContext(WebSocketContext);
   const [users, setUsers] = useState(null);
   const [x, setX] = useState(0);
   const [username, setUsername] = useState(null);
@@ -14,20 +13,16 @@ const Chat = () => {
   const [roomName, setRoomName] = useState("");
   const [rooms, setRooms] = useState([]);
   const [error, setError] = useState("");
-  const [re, setRe] = useState(null);
+
   function handleClickToSaveName(username) {
     setUsername(username);
   }
 
   useEffect(() => {
-    let token = JSON.parse(localStorage.getItem("login_code"));
-
     const fetchData = async () => {
       try {
         const result = await GetUserList();
-        const re = await Relogin(token);
         setUsers(result);
-        setRe(re);
       } catch (error) {
         console.error("Lỗi khi lấy danh sách người dùng:", error);
       }
@@ -36,11 +31,11 @@ const Chat = () => {
     if (connection) {
       fetchData();
     }
-  }, [connection, x, re]);
+  }, [connection, GetUserList, x]);
 
   const handleCreateRoom = () => {
     if (roomName) {
-      const userNames = users ? users.map((user) => user.username) : [];
+      const userNames = users ? users.map(user => user.username) : [];
       if (rooms.includes(roomName) || userNames.includes(roomName)) {
         setError("Tên phòng đã tồn tại");
       } else {

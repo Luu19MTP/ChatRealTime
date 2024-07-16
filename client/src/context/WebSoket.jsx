@@ -22,7 +22,7 @@ const WebSocketProvider = ({ children }) => {
     setConnection(true);
     ws.addEventListener("open", () => {
       console.log("WebSocket connection opened");
-     
+      
     });
 
     ws.addEventListener("message", (event) => {
@@ -89,34 +89,28 @@ const WebSocketProvider = ({ children }) => {
     (re_login_code) => {
       return new Promise((resolve) => {
         const relogin_msg = {
-          action: "onchat",
+          status: "success",
+          event: "RE_LOGIN",
           data: {
-            event: "RE_LOGIN",
-            data: {
-              RE_LOGIN_CODE: re_login_code,
-            },
+            RE_LOGIN_CODE: re_login_code,
           },
         };
         SendMessage(relogin_msg);
-  
-        const messageListener = (event) => {
-          const res = JSON.parse(event.data);
-          if (res.status === "success" && res.event === "RE_LOGIN") {
-            localStorage.setItem("login_code", res.data.RE_LOGIN_CODE);
-            setFlag(true);
-            resolve(res.data); // Resolve the promise with data from server
-            wsRef.current.removeEventListener("message", messageListener); // Remove the listener after resolving
-          }
-        };
-  
         if (connection) {
-          wsRef.current.addEventListener("message", messageListener);
+          wsRef.current.addEventListener("message", (event) => {
+            const res = JSON.parse(event.data);
+            if (res.status === "success" && res.event === "RE_LOGIN") {
+              localStorage.setItem("login_code", res.data.RE_LOGIN_CODE);
+              setFlag(true);
+            }
+            resolve(res.data);
+            wsRef.current.removeEventListener("message", this);
+          });
         }
       });
     },
     [connection, flag]
   );
-  
 
   const GetUserList = useCallback(() => {
     return new Promise((resolve) => {
