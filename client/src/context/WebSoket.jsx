@@ -134,6 +134,8 @@ const WebSocketProvider = ({ children }) => {
         let data = res.data;
         let token = data.RE_LOGIN_CODE;
         setLogin_code(token);
+        let obj = { RE_LOGIN_CODE: token };
+        localStorage.setItem("login_code", JSON.stringify(obj));
       }
       wsRef.current.removeEventListener("message", this);
     });
