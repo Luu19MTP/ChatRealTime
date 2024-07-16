@@ -14,19 +14,21 @@ const Chat = () => {
   const [roomName, setRoomName] = useState("");
   const [rooms, setRooms] = useState([]);
   const [error, setError] = useState("");
-
+  const [relogin, setRelogin] = useState(false);
   function handleClickToSaveName(username) {
     setUsername(username);
   }
 
-
   useEffect(() => {
+    console.log("Effect đang chạy, x =", x, "connection =", connection);
+
     const fetchData = async () => {
       try {
         const result = await GetUserList();
-        const test = await Relogin();
+        await Relogin();
 
         setUsers(result);
+        setRelogin(!relogin);
       } catch (error) {
         console.error("Lỗi khi lấy danh sách người dùng:", error);
       }
@@ -35,7 +37,7 @@ const Chat = () => {
     if (connection) {
       fetchData();
     }
-  }, [connection, GetUserList, x]);
+  }, [connection]);
 
   const handleCreateRoom = () => {
     if (roomName) {
