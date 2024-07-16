@@ -19,25 +19,28 @@ const Chat = () => {
     setUsername(username);
   }
 
+
+  // Trong Chat component
   useEffect(() => {
-    console.log("Effect đang chạy, x =", x, "connection =", connection);
+    console.log(
+      "Effect đang chạy để lấy danh sách người dùng và relogin nếu cần"
+    );
+    fetchData();
+  }, [login_code]);
 
-    const fetchData = async () => {
-      try {
-        const result = await GetUserList();
-        await Relogin();
+  const fetchData = async () => {
+    try {
+      console.log("dang trong fetch");
+      const result = await GetUserList();
+      await Relogin();
+      console.log(login_code);
 
-        setUsers(result);
-        setRelogin(!relogin);
-      } catch (error) {
-        console.error("Lỗi khi lấy danh sách người dùng:", error);
-      }
-    };
-
-    if (connection) {
-      fetchData();
+      setUsers(result);
+      setRelogin(!relogin);
+    } catch (error) {
+      console.error("Lỗi khi lấy danh sách người dùng:", error);
     }
-  }, [connection]);
+  };
 
   const handleCreateRoom = () => {
     if (roomName) {
@@ -62,13 +65,6 @@ const Chat = () => {
 
   return (
     <>
-      <button
-        onClick={() => {
-          setX(x + 1);
-        }}
-      >
-        {x}
-      </button>
       <div
         id="wrapper"
         className="container-fluid d-flex rounded-2 border p-1 gap-1"
