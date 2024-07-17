@@ -1,10 +1,11 @@
-import React, { useReducer, useState, useEffect } from "react";
+import React ,{ useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import toast, { Toaster } from "react-hot-toast";
-import "react-toastify/dist/ReactToastify.css";
+import toast from "react-hot-toast";
+import { FaUser, FaLock } from "react-icons/fa";
 import Spinner from "react-bootstrap/Spinner";
-import { useContext } from "react";
 import { WebSocketContext } from "../context/WebSoket";
+import { Link } from "react-router-dom";
+import "./Login.css"; // Ensure this CSS file includes the styles provided
 
 export default function Signup() {
   const [username, setUsername] = useState("");
@@ -32,50 +33,46 @@ export default function Signup() {
       setResponse(null);
     }
   }, [response, navigate]);
-  // neu phan hoi ve signup loi=> toast,
-  //neu chuyen huong , tuong duong voi signup thanh cong=> toast
-  return (
-    <>
-      <div className="container">
-        <h1 className="text-center">REGISTER</h1>
-        <form onSubmit={handleSubmit}>
-          <div className="mb-3">
-            <label htmlFor="username" className="form-label">
-              Username
-            </label>
-            <input
-              onChange={(e) => setUsername(e.target.value)}
-              type="text"
-              className="form-control"
-              id="username"
-              aria-describedby="emailHelp"
-            />
-          </div>
-          <div className="mb-3">
-            <label htmlFor="exampleInputPassword1" className="form-label">
-              Password
-            </label>
-            <input
-              onChange={(e) => setPassword(e.target.value)}
-              type="password"
-              className="form-control"
-              id="exampleInputPassword1"
-            />
-          </div>
 
-          <button type="submit" className="btn btn-primary">
-            {loading && (
-              <>
-                <Spinner animation="border" role="status" size="sm">
-                  <span className="visually-hidden">Loading...</span>
-                </Spinner>{" "}
-              </>
-            )}
-            &nbsp;
-            <span>Submit</span>
-          </button>
-        </form>
-      </div>
-    </>
+  return (
+    <div className="wrapper">
+      <form onSubmit={handleSubmit}>
+        <h1>Register</h1>
+        <div className="input-box">
+          <input
+            type="text"
+            placeholder="Username"
+            required
+            onChange={(e) => setUsername(e.target.value)}
+          />
+          <FaUser className="icon" />
+        </div>
+        <div className="input-box">
+          <input
+            type="password"
+            placeholder="Password"
+            required
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <FaLock className="icon" />
+        </div>
+       
+        <button type="submit">
+          {loading && (
+            <Spinner animation="border" role="status" size="sm">
+              <span className="visually-hidden">Loading...</span>
+            </Spinner>
+          )}
+          &nbsp;Submit
+        </button>
+        <div className="register-link">
+          <p>
+            You have an account? <a href="#"> <Link to={"/login"} className="m-1 text-decoration-none">
+              Login
+            </Link></a>
+          </p>
+        </div>
+      </form>
+    </div>
   );
 }

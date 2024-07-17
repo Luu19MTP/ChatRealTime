@@ -33,8 +33,6 @@ const Chat = () => {
   const fetchData = async () => {
     try {
       const result = await GetUserList();
-      // await Relogin();
-
       setUsers(result);
       setRelogin(!relogin);
     } catch (error) {
@@ -68,6 +66,7 @@ const Chat = () => {
       <div
         id="wrapper"
         className="container-fluid d-flex rounded-2 border p-1 gap-1"
+        style={{ width: 1114 }}
       >
         <div className="left col-3 p-2 border-end">
           <input

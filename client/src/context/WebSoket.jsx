@@ -243,8 +243,8 @@ const WebSocketProvider = ({ children }) => {
     CreateRoom,
     JoinRoom,
     GetChatPeople,
-    SendChatPeople,
     GetChatRoom,
+    SendChatPeople,
   };
 
   return (
