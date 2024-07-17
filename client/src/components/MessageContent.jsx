@@ -4,9 +4,11 @@ import MessageList from "./MessageList";
 
 export default function ChatContent({ name, type }) {
   const [chats, setChats] = useState(null);
-  const { connection, GetChatPeople, GetChatRoom, SendChat } =
+  // const [msg, setMsg] = useState(null);
+  const { connection, GetChatPeople, GetChatRoom, SendChat, msg, updateMsg } =
     useContext(WebSocketContext);
 
+  console.log("msg",msg);
   let user = type == 1 ? "room" : "people";
   // let func = type == 1 ? GetChatRoom(name) : GetChatPeople(name);
   // console.log(user);
@@ -25,37 +27,29 @@ export default function ChatContent({ name, type }) {
     if (connection) {
       fetchData();
     }
-  }, [connection, name]);
+  }, [connection, name, msg]);
 
   // console.log(GetChatRoom("fsd"));
 
   const sendChat = () => {
     let input = document.getElementById("input").value;
     SendChat(user, name, input);
-    fetchData();
+    // fetchData();
+    document.getElementById("input").innerText = "";
   };
 
   const handleSend = () => {
-    // console.log(input);
     sendChat();
   };
-
-  // const handleKeyPress = (e) => {
-  //   if (e.key === "Enter") {
-  //     handleSend();
-  //   }
-  // };
 
   if (!chats) {
     return <div>Loading...</div>; // Hoặc hiển thị một thông báo tải dữ liệu
   }
 
-
   return (
     <>
       <div className="p-2 flex-grow-1 d-flex flex-column">
-        
-        <MessageList chats={chats}/>
+        <MessageList chats={chats} />
       </div>
 
       <div className="d-flex p-2">

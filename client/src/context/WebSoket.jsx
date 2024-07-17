@@ -17,6 +17,10 @@ const WebSocketProvider = ({ children }) => {
   const [users, setUsers] = useState(null);
   const [flag, setFlag] = useState(false);
   const [login_code, setLogin_code] = useState(null);
+  const [msg, setMsg] = useState(0);
+  const updateMsg = () => {
+    setMsg(msg + 1);
+  };
   useEffect(() => {
     const ws = new WebSocket("ws://140.238.54.136:8080/chat/chat");
     wsRef.current = ws;
@@ -24,13 +28,15 @@ const WebSocketProvider = ({ children }) => {
     ws.addEventListener("open", () => {
       console.log("WebSocket connection opened");
       Relogin();
-
     });
 
     ws.addEventListener("message", (event) => {
       const res = JSON.parse(event.data);
       setResponse(res);
       console.log("websocket said:", res);
+      if (res.event == "SEND_CHAT") {
+        updateMsg();
+      }
     });
 
     ws.addEventListener("close", () => {
@@ -147,8 +153,9 @@ const WebSocketProvider = ({ children }) => {
     SendMessage(create_room_msg);
   };
 
-
   const SendChat = (type, user, msg) => {
+    updateMsg()
+
     // tang callRef
     const msg_people = {
       action: "onchat",
@@ -190,7 +197,6 @@ const WebSocketProvider = ({ children }) => {
     [connection]
   );
 
-
   const GetChatRoom = useCallback(
     (room) => {
       return new Promise((resolve) => {
@@ -217,7 +223,6 @@ const WebSocketProvider = ({ children }) => {
     [connection]
   );
 
-  
   const JoinRoom = (roomName) => {
     const join_room_msg = {
       action: "onchat",
@@ -232,6 +237,7 @@ const WebSocketProvider = ({ children }) => {
   };
 
   const value = {
+    msg,
     login_code,
     connection,
     response,
@@ -250,6 +256,7 @@ const WebSocketProvider = ({ children }) => {
     GetChatPeople,
     SendChat,
     GetChatRoom,
+    updateMsg,
   };
 
   return (
