@@ -19,12 +19,14 @@ const WebSocketProvider = ({ children }) => {
   const [login_code, setLogin_code] = useState(null);
   const [msg, setMsg] = useState(0);
   const [status, setStatus] = useState(null);
-  const updateMsg = () => {
-    setMsg(msg + 1);
-  };
+ 
 
   const updateStatus = useCallback((data) => {
     setStatus(data);
+  },[]);
+
+  const updateMsg = useCallback(() => {
+    setMsg((msg) => msg + 1);
   }, []);
 
   useEffect(() => {

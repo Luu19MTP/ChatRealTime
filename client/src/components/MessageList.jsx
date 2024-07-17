@@ -4,7 +4,7 @@ const MessageList = ({ chats }) => {
   console.log(chats);
   return (
     <>
-      {chats.reverse().map((item) => {
+      {chats.map((item) => {
         return <MessageItem key={item.id} username={item.name} value={item.mes}  />;
       })}
 

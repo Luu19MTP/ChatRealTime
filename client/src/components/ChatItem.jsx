@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from "react";
+import { useRef } from "react";
 import "./ChatItem.css";
 import { WebSocketContext } from "../context/WebSoket";
 
