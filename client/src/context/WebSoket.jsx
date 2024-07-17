@@ -18,9 +18,11 @@ const WebSocketProvider = ({ children }) => {
   const [flag, setFlag] = useState(false);
   const [login_code, setLogin_code] = useState(null);
   const [msg, setMsg] = useState(0);
-  const updateMsg = () => {
-    setMsg(msg + 1);
-  };
+
+  const updateMsg = useCallback(() => {
+    setMsg((msg) => msg + 1);
+  }, []);
+
   useEffect(() => {
     const ws = new WebSocket("ws://140.238.54.136:8080/chat/chat");
     wsRef.current = ws;
@@ -154,7 +156,7 @@ const WebSocketProvider = ({ children }) => {
   };
 
   const SendChat = (type, user, msg) => {
-    updateMsg()
+    updateMsg();
 
     // tang callRef
     const msg_people = {

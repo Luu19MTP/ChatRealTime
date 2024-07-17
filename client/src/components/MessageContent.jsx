@@ -8,17 +8,16 @@ export default function ChatContent({ name, type }) {
   // const [msg, setMsg] = useState(null);
   const { connection, GetChatPeople, GetChatRoom, SendChat, msg, updateMsg } =
     useContext(WebSocketContext);
+  const boxRef = useRef(null);
 
-  console.log("msg",msg);
+  console.log("msg", msg);
   let user = type == 1 ? "room" : "people";
-  // let func = type == 1 ? GetChatRoom(name) : GetChatPeople(name);
-  // console.log(user);
 
   const fetchData = async () => {
     try {
       const result =
         type == 1 ? await GetChatRoom(name) : await GetChatPeople(name);
-      setChats(result);
+      setChats(result.reverse());
     } catch (error) {
       console.error("Lỗi khi lấy danh sách message:", error);
     }
@@ -30,7 +29,23 @@ export default function ChatContent({ name, type }) {
     }
   }, [connection, name, msg]);
 
-  // console.log(GetChatRoom("fsd"));
+  useEffect(() => {
+    if (connection) {
+      fetchData();
+    }
+  }, [connection, name]);
+
+  useEffect(() => {
+    if (msg) {
+      setChats((prevChats) => [...prevChats, msg]);
+    }
+  }, [msg]);
+
+  useEffect(() => {
+    if (boxRef.current) {
+      boxRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [chats]);
 
   const sendChat = () => {
     let input = document.getElementById("input").value;
@@ -49,8 +64,16 @@ export default function ChatContent({ name, type }) {
 
   return (
     <>
-      <div className="p-2 flex-grow-1 d-flex flex-column">
+      <div
+        style={{
+          overflowY: "auto",
+          scrollbarWidth: "none",
+          msOverflowStyle: "none",
+        }}
+        className="p-2 flex-grow-1 d-flex flex-column chat-content"
+      >
         <MessageList chats={chats} />
+        <div ref={boxRef}></div>
       </div>
 
       <div className="d-flex p-2 codinh">
@@ -64,6 +87,12 @@ export default function ChatContent({ name, type }) {
           <i className="fa-solid fa-paper-plane"></i>
         </div>
       </div>
+      <style jsx>{`
+        .chat-content::-webkit-scrollbar {
+          width: 0px;
+          background: transparent;
+        }
+      `}</style>
     </>
   );
 }

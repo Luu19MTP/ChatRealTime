@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import "./ChatItem.css";
 
 const ChatItem = ({ item, saveUsername, saveType }) => {

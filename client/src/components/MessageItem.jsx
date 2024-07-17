@@ -1,9 +1,7 @@
 const MessageItem = ({ value, username }) => {
   let name = localStorage.getItem("username");
+
   return (
-    // <>
-    //   <h1>{value}</h1>
-    // </>
     <>
       <div className="p-2 flex-grow-1 d-flex flex-column">
         <div
