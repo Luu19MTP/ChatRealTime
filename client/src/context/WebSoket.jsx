@@ -172,13 +172,13 @@ const WebSocketProvider = ({ children }) => {
     [connection]
   );
 
-  const SendChatPeople = (user, msg) => {
+  const SendChatPeople = (type,user, msg) => {
     const msg_people = {
       action: "onchat",
       data: {
         event: "SEND_CHAT",
         data: {
-          type: "people",
+          type: type,
           to: user,
           mes: msg,
         },

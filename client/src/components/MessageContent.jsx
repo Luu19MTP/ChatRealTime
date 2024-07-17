@@ -26,17 +26,11 @@ export default function ChatContent({ name }) {
   }, [connection, name]);
 
   const handleSend = () => {
-    const currentMessage = inputRef.current.value; // Lấy giá trị từ inputRef
-    if (currentMessage.trim()) {
-      // Gửi tin nhắn của người dùng
-      setMessages([...messages, { text: currentMessage, isMyMessage: true }]);
-      inputRef.current.value = ""; // Reset giá trị của input
-    }
+   let input = document.getElementById("input").value;
+   console.log(input)
   };
 
-  const currentMessage = inputRef.current.value; // Lấy giá trị từ inputRef
 
-  console.log(currentMessage);
 
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
@@ -71,14 +65,10 @@ export default function ChatContent({ name }) {
       </div>
 
       <div className="d-flex p-2">
-        <input
+        <input id="input"
           className="flex-fill rounded"
           type="text"
           placeholder="Type a message"
-          value={message}
-          ref={inputRef} // Gán ref vào input
-          onChange={(e) => (inputRef.current = e.target.value)} // Cập nhật state message khi input thay đổi
-          onKeyPress={handleKeyPress} // Xử lý sự kiện nhấn phím Enter
         />
         <div className="btn" onClick={handleSend}>
           <i className="fa-solid fa-paper-plane"></i>
