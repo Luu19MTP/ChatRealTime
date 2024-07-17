@@ -40,20 +40,22 @@ export default function ChatContent({ name, type }) {
     sendChat();
   };
 
-  const handleKeyPress = (e) => {
-    if (e.key === "Enter") {
-      handleSend();
-    }
-  };
+  // const handleKeyPress = (e) => {
+  //   if (e.key === "Enter") {
+  //     handleSend();
+  //   }
+  // };
 
   if (!chats) {
     return <div>Loading...</div>; // Hoặc hiển thị một thông báo tải dữ liệu
   }
 
+
   return (
     <>
       <div className="p-2 flex-grow-1 d-flex flex-column">
-        <MessageList chats={chats} />
+        
+        <MessageList chats={chats}/>
       </div>
 
       <div className="d-flex p-2">

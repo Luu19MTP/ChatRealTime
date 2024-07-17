@@ -5,8 +5,10 @@ const MessageList = ({ chats }) => {
   return (
     <>
       {chats.reverse().map((item) => {
-        return <MessageItem key={item.id} username={item.name} value={item.mes} />;
+        return <MessageItem key={item.id} username={item.name} value={item.mes}  />;
       })}
+
+  
     </>
   );
 };
