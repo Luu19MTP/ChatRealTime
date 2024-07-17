@@ -1,5 +1,6 @@
 
   import ChatItem from "./ChatItem";
+  import "./ChatItem.css"
 
   const ChatList = ({ users,saveUsername,saveType }) => {
 
@@ -12,9 +13,11 @@
 
     return (
       <>
+      <div className="wp-chat-list">
         {users.map((item, index) => (
           <ChatItem key={index} item={item} saveUsername={saveUsername} saveType={saveType}/>
         ))}
+        </div>
       </>
     );
   };

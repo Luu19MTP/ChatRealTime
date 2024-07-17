@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState, useRef } from "react";
 import { WebSocketContext } from "../context/WebSoket";
 import MessageList from "./MessageList";
+import "./ChatItem.css";
 
 export default function ChatContent({ name, type }) {
   const [chats, setChats] = useState(null);
@@ -58,7 +59,7 @@ export default function ChatContent({ name, type }) {
         <MessageList chats={chats}/>
       </div>
 
-      <div className="d-flex p-2">
+      <div className="d-flex p-2 codinh">
         <input
           id="input"
           className="flex-fill rounded"

@@ -8,8 +8,14 @@
 
 .info__chat {
   display: flex;
-  align-items: center;
-  padding: 10px;
+    align-items: center;
+    padding: 10px;
+    position: absolute;
+    /* padding: 0; */
+    top: 77px;
+    left: 400px;
+    width: 630px;
+    background: #fff3cd;
 }
 
 .avatar {
@@ -65,4 +71,22 @@
 
 .btn i {
   font-size: 1.5rem;
+}
+
+.css-seach {
+  position: absolute;
+  padding: 0;
+  top: 76px;
+  left: 131px;
+  width: 242px;
+  height: 40px;
+}
+
+.css-room {
+  position: absolute;
+  padding: 0;
+  top: 110px;
+  left: 131px;
+  width: 242px;
+  height: 40px;
 }

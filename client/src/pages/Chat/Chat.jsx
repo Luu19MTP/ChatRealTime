@@ -66,16 +66,17 @@ const Chat = () => {
       <div
         id="wrapper"
         className="container-fluid d-flex rounded-2 border p-1 gap-1"
-        style={{ width: 1114 }}
+        style={{ width: 1114 , height:560 }}
       >
-        <div className="left col-3 p-2 border-end">
+        <div className="left col-3 p-2 border-end" >
           <input
-            className="form-control me-2"
+            className="form-control me-2 css-seach"
             type="search"
             placeholder="Search"
             aria-label="Search"
+          
           />
-          <div className="mt-3">
+          <div className="mt-3 css-room">
             <input
               type="text"
               className="form-control mb-2"

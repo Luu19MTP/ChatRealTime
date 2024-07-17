@@ -18,3 +18,12 @@
     align-self: flex-start;
   }
 }
+.codinh {
+  position: absolute;
+    bottom: 0;
+    left: 400px;
+    width: 630px;
+}
+.wp-chat-list {
+  margin-top: 134px;
+}
