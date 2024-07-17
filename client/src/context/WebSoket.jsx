@@ -24,6 +24,7 @@ const WebSocketProvider = ({ children }) => {
     ws.addEventListener("open", () => {
       console.log("WebSocket connection opened");
       Relogin();
+
     });
 
     ws.addEventListener("message", (event) => {
@@ -172,7 +173,33 @@ const WebSocketProvider = ({ children }) => {
     [connection]
   );
 
-  const SendChatPeople = (type,user, msg) => {
+  const GetChatRoom = useCallback(
+    (room) => {
+      return new Promise((resolve) => {
+        const getRoom_msg = {
+          action: "onchat",
+          data: {
+            event: "GET_ROOM_CHAT_MES",
+            data: {
+              name: room,
+              page: 1,
+            },
+          },
+        };
+        SendMessage(getRoom_msg);
+        if (connection) {
+          wsRef.current.addEventListener("message", (event) => {
+            const res = JSON.parse(event.data);
+            resolve(res.data.chatData);
+            wsRef.current.removeEventListener("message", this);
+          });
+        }
+      });
+    },
+    [connection]
+  );
+
+  const SendChatPeople = (type, user, msg) => {
     const msg_people = {
       action: "onchat",
       data: {
@@ -217,6 +244,7 @@ const WebSocketProvider = ({ children }) => {
     JoinRoom,
     GetChatPeople,
     SendChatPeople,
+    GetChatRoom,
   };
 
   return (

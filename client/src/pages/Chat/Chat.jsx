@@ -15,10 +15,15 @@ const Chat = () => {
   const [rooms, setRooms] = useState([]);
   const [error, setError] = useState("");
   const [relogin, setRelogin] = useState(false);
+  const [type, setType] = useState(null);
+
+
   function handleClickToSaveName(username) {
     setUsername(username);
   }
-
+  function handleSaveType(type) {
+    setType(type);
+  }
 
   // Trong Chat component
   useEffect(() => {
@@ -87,7 +92,11 @@ const Chat = () => {
             </button>
             {error && <div className="text-danger mt-2">{error}</div>}
           </div>
-          <ChatList users={users} saveUsername={handleClickToSaveName} />
+          <ChatList
+            users={users}
+            saveUsername={handleClickToSaveName}
+            saveType={handleSaveType}
+          />
           <div className="mt-3">
             <h5>Rooms</h5>
             <ul className="list-unstyled">
@@ -126,7 +135,7 @@ const Chat = () => {
               <i className="fa-solid fa-circle-info"></i>
             </div>
           </div>
-          {username !== null ? <ChatContent name={username} /> : null}
+          {username !== null ? <ChatContent name={username} type={type}/> : null}
         </div>
       </div>
       <div className="col-2">
