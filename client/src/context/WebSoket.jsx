@@ -18,9 +18,15 @@ const WebSocketProvider = ({ children }) => {
   const [flag, setFlag] = useState(false);
   const [login_code, setLogin_code] = useState(null);
   const [msg, setMsg] = useState(0);
+  const [status, setStatus] = useState(null);
   const updateMsg = () => {
     setMsg(msg + 1);
   };
+
+  const updateStatus = useCallback((data) => {
+    setStatus(data);
+  }, []);
+
   useEffect(() => {
     const ws = new WebSocket("ws://140.238.54.136:8080/chat/chat");
     wsRef.current = ws;
@@ -154,7 +160,7 @@ const WebSocketProvider = ({ children }) => {
   };
 
   const SendChat = (type, user, msg) => {
-    updateMsg()
+    updateMsg();
 
     // tang callRef
     const msg_people = {
@@ -236,6 +242,39 @@ const WebSocketProvider = ({ children }) => {
     SendMessage(join_room_msg);
   };
 
+  const CheckUserContext = useCallback(
+    (username) => {
+      const check_user_msg = {
+        action: "onchat",
+        data: {
+          event: "CHECK_USER",
+          data: {
+            user: username,
+          },
+        },
+      };
+
+      SendMessage(check_user_msg);
+
+      // Lắng nghe và xử lý dữ liệu trả về từ WebSocket
+      const handleCheckUserResponse = (event) => {
+        const res = JSON.parse(event.data);
+        if (res.event === "CHECK_USER" && res.status === "success") {
+          updateStatus(res.data.status);
+        }
+      };
+
+      // Thêm sự kiện lắng nghe
+      wsRef.current.addEventListener("message", handleCheckUserResponse);
+
+      // Hủy bỏ sự kiện lắng nghe khi component bị unmount
+      return () => {
+        wsRef.current.removeEventListener("message", handleCheckUserResponse);
+      };
+    },
+    [updateStatus]
+  );
+
   const value = {
     msg,
     login_code,
@@ -244,6 +283,7 @@ const WebSocketProvider = ({ children }) => {
     name,
     users,
     flag,
+    status,
     Relogin,
     GetUserList,
     setResponse,
@@ -257,6 +297,8 @@ const WebSocketProvider = ({ children }) => {
     SendChat,
     GetChatRoom,
     updateMsg,
+    CheckUserContext,
+    updateStatus,
   };
 
   return (

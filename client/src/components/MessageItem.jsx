@@ -5,7 +5,7 @@ const MessageItem = ({ value, username }) => {
     //   <h1>{value}</h1>
     // </>
     <>
-      <div className="p-2 flex-grow-1 d-flex flex-column">
+      <div className="p-2 flex-grow-1 d-flex flex-column" style={{marginTop : 60}}>
         <div
           style={{
             color: "white",
