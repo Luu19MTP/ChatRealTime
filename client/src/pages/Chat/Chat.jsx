@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import ChatList from "../../components/ChatList";
 import "./Chat.css";
 import { WebSocketContext } from "../../context/WebSoket";
-import ChatContent from "../../components/ChatContent";
+import ChatContent from "../../components/MessageContent";
 
 const Chat = () => {
   const { connection, GetUserList, CreateRoom, JoinRoom, Relogin, login_code } =
@@ -22,18 +22,13 @@ const Chat = () => {
 
   // Trong Chat component
   useEffect(() => {
-    console.log(
-      "Effect đang chạy để lấy danh sách người dùng và relogin nếu cần"
-    );
     fetchData();
   }, [login_code]);
 
   const fetchData = async () => {
     try {
-      console.log("dang trong fetch");
       const result = await GetUserList();
       await Relogin();
-      console.log(login_code);
 
       setUsers(result);
       setRelogin(!relogin);

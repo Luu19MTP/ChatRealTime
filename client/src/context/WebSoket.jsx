@@ -199,6 +199,33 @@ const WebSocketProvider = ({ children }) => {
     [connection]
   );
 
+
+  const GetChatRoom = useCallback(
+    (room) => {
+      return new Promise((resolve) => {
+        const getChatRoom_msg = {
+          action: "onchat",
+          data: {
+            event: "GET_ROOM_CHAT_MES",
+            data: {
+              name: room,
+              page: 1,
+            },
+          },
+        };
+        SendMessage(getChatRoom_msg);
+        if (connection) {
+          wsRef.current.addEventListener("message", (event) => {
+            const res = JSON.parse(event.data);
+            resolve(res.data);
+            wsRef.current.removeEventListener("message", this);
+          });
+        }
+      });
+    },
+    [connection]
+  );
+
   const JoinRoom = (roomName) => {
     const join_room_msg = {
       action: "onchat",
@@ -229,6 +256,7 @@ const WebSocketProvider = ({ children }) => {
     CreateRoom,
     JoinRoom,
     GetChatPeople,
+    GetChatRoom,
   };
 
   return (

@@ -1,14 +1,26 @@
 import { useContext, useEffect, useState } from "react";
-import { WebSocketContext, WebSocketProvider } from "../context/WebSoket";
+import { WebSocketContext } from "../context/WebSoket";
 import MessageList from "./MessageList";
 
-export default function ChatContent({ name }) {
+export default function MessageContent({ name }) {
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
   const [chats, setChats] = useState(null);
-  const { connection, GetChatPeople } = useContext(WebSocketContext);
+  const [chatRoom, setChatRoom] = useState(null);
+
+  const { connection, GetChatPeople, GetChatRoom } = useContext(WebSocketContext);
 
   useEffect(() => {
+    const fetchRoomData = async () => {
+      try {
+        const set = await GetChatRoom(name);  // Lấy tin nhắn từ phòng chat
+        setChatRoom(set);
+      } catch (error) {
+        console.error("Lỗi khi lấy danh sách tin nhắn phòng chat:", error);
+      }
+    };
+
+    
     const fetchData = async () => {
       try {
         const result = await GetChatPeople(name);
@@ -18,12 +30,13 @@ export default function ChatContent({ name }) {
       }
     };
 
-    if (connection) {
-      fetchData();
-    }
-  }, [connection, name]);
+   
 
-  console.log("name", name);
+    if (connection) {
+      fetchData(); // Lấy danh sách tin nhắn người dùng
+      fetchRoomData(); // Lấy danh sách tin nhắn từ phòng chat
+    }
+  }, [connection, name, GetChatPeople, GetChatRoom]);
 
   const handleSend = () => {
     if (message.trim()) {
@@ -32,8 +45,6 @@ export default function ChatContent({ name }) {
       setMessage("");
     }
   };
-
-  console.log("chats", chats);
 
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
@@ -44,8 +55,11 @@ export default function ChatContent({ name }) {
   if (!chats) {
     return <div>Loading...</div>; // Hoặc hiển thị một thông báo tải dữ liệu
   }
-  const textdecoder = new TextDecoder();
-  // let x = new TextDecoder();
+
+  if (!chatRoom) {
+    return <div>Loading...</div>; // Hoặc hiển thị một thông báo tải dữ liệu
+  }
+
   return (
     <>
       <div className="p-2 flex-grow-1 d-flex flex-column">
@@ -65,11 +79,9 @@ export default function ChatContent({ name }) {
             {msg.text}
           </div>
         ))}
-        <MessageList chats={chats} />
+        <MessageList chats={chats} chatRoom={chatRoom} />
       </div>
 
-      {/* <div className="chats"></div> */}
-      {/* send msg */}
       <div className="d-flex p-2">
         <input
           className="flex-fill rounded"
