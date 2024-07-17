@@ -1,6 +1,6 @@
 import MessageItem from "./MessageItem";
 
-const MessageList = ({ chats, chatRoom }) => {
+const MessageList = ({ chats }) => {
   console.log(chats);
   return (
     <>
@@ -8,9 +8,7 @@ const MessageList = ({ chats, chatRoom }) => {
         return <MessageItem key={item.id} username={item.name} value={item.mes}  />;
       })}
 
-      {chatRoom.reverse().map((item) => {
-        return <MessageItem key={item.id} username={item.name} value={item.mes}  />;
-      })}
+  
     </>
   );
 };

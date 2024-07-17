@@ -28,8 +28,6 @@ const Chat = () => {
   const fetchData = async () => {
     try {
       const result = await GetUserList();
-      await Relogin();
-
       setUsers(result);
       setRelogin(!relogin);
     } catch (error) {

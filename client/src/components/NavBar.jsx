@@ -21,7 +21,9 @@ const NavBar = () => {
     localStorage.clear();
     setName(null);
     setResponse(null);
-    navigate("/signup");
+    navigate("/login");
+    // Reload trang
+    location.reload();
   };
 
   useEffect(() => {
