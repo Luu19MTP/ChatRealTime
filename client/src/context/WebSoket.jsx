@@ -147,6 +147,23 @@ const WebSocketProvider = ({ children }) => {
     SendMessage(create_room_msg);
   };
 
+
+  const SendChat = (type, user, msg) => {
+    // tang callRef
+    const msg_people = {
+      action: "onchat",
+      data: {
+        event: "SEND_CHAT",
+        data: {
+          type: type,
+          to: user,
+          mes: msg,
+        },
+      },
+    };
+    SendMessage(msg_people);
+  };
+
   const GetChatPeople = useCallback(
     (people) => {
       return new Promise((resolve) => {
@@ -172,6 +189,7 @@ const WebSocketProvider = ({ children }) => {
     },
     [connection]
   );
+
 
   const GetChatRoom = useCallback(
     (room) => {
@@ -199,20 +217,7 @@ const WebSocketProvider = ({ children }) => {
     [connection]
   );
 
-  const SendChatPeople = (type, user, msg) => {
-    const msg_people = {
-      action: "onchat",
-      data: {
-        event: "SEND_CHAT",
-        data: {
-          type: type,
-          to: user,
-          mes: msg,
-        },
-      },
-    };
-    SendMessage(msg_people);
-  };
+  
   const JoinRoom = (roomName) => {
     const join_room_msg = {
       action: "onchat",
@@ -243,7 +248,7 @@ const WebSocketProvider = ({ children }) => {
     CreateRoom,
     JoinRoom,
     GetChatPeople,
-    SendChatPeople,
+    SendChat,
     GetChatRoom,
   };
 

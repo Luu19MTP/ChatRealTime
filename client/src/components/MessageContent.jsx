@@ -4,24 +4,24 @@ import MessageList from "./MessageList";
 
 export default function ChatContent({ name, type }) {
   const [chats, setChats] = useState(null);
-  const { connection, GetChatPeople, GetChatRoom } =
+  const { connection, GetChatPeople, GetChatRoom, SendChat } =
     useContext(WebSocketContext);
 
   let user = type == 1 ? "room" : "people";
   // let func = type == 1 ? GetChatRoom(name) : GetChatPeople(name);
   // console.log(user);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const result =
-          type == 1 ? await GetChatRoom(name) : await GetChatPeople(name);
-        setChats(result);
-      } catch (error) {
-        console.error("Lỗi khi lấy danh sách message:", error);
-      }
-    };
+  const fetchData = async () => {
+    try {
+      const result =
+        type == 1 ? await GetChatRoom(name) : await GetChatPeople(name);
+      setChats(result);
+    } catch (error) {
+      console.error("Lỗi khi lấy danh sách message:", error);
+    }
+  };
 
+  useEffect(() => {
     if (connection) {
       fetchData();
     }
@@ -29,9 +29,15 @@ export default function ChatContent({ name, type }) {
 
   // console.log(GetChatRoom("fsd"));
 
-  const handleSend = () => {
+  const sendChat = () => {
     let input = document.getElementById("input").value;
-    console.log(input);
+    SendChat(user, name, input);
+    fetchData();
+  };
+
+  const handleSend = () => {
+    // console.log(input);
+    sendChat();
   };
 
   const handleKeyPress = (e) => {
