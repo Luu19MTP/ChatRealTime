@@ -2,43 +2,38 @@ import React, { useContext, useEffect, useState, useRef } from "react";
 import { WebSocketContext } from "../context/WebSoket";
 import MessageList from "./MessageList";
 
-export default function ChatContent({ name }) {
+export default function ChatContent({ name, type }) {
   const [chats, setChats] = useState(null);
-  const [chatRoom, setChatRoom] = useState(null);
-  const { connection, GetChatPeople, GetChatRoom } = useContext(WebSocketContext);
+  const { connection, GetChatPeople, GetChatRoom } =
+    useContext(WebSocketContext);
 
+  let user = type == 1 ? "room" : "people";
+  // let func = type == 1 ? GetChatRoom(name) : GetChatPeople(name);
+  // console.log(user);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const result = await GetChatPeople(name);
+        const result =
+          type == 1 ? await GetChatRoom(name) : await GetChatPeople(name);
         setChats(result);
       } catch (error) {
         console.error("Lỗi khi lấy danh sách message:", error);
       }
     };
 
-    const fetchRoomData = async () => {
-      try {
-        const set = await GetChatRoom(name);
-        setChatRoom(set);
-      } catch (error) {
-        console.error("Lỗi khi lấy danh sách message:", error);
-      }
-    };
 
     if (connection) {
       fetchData();
-      fetchRoomData();
     }
   }, [connection, name]);
 
+  // console.log(GetChatRoom("fsd"));
+
   const handleSend = () => {
-   let input = document.getElementById("input").value;
-   console.log(input)
+    let input = document.getElementById("input").value;
+    console.log(input);
   };
-
-
 
   // const handleKeyPress = (e) => {
   //   if (e.key === "Enter") {
@@ -59,7 +54,8 @@ export default function ChatContent({ name }) {
       </div>
 
       <div className="d-flex p-2">
-        <input id="input"
+        <input
+          id="input"
           className="flex-fill rounded"
           type="text"
           placeholder="Type a message"

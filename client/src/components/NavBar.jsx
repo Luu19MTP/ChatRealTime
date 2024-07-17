@@ -45,17 +45,10 @@ const NavBar = () => {
             <div className="nav-link">
               {name && <span>Wellcome {name}</span>}
             </div>
-            <Link to={"/login"} className="m-1 text-decoration-none">
-              Login
-            </Link>
-            <Link to={"/signup"} className="m1 text-decoration-none">
-              Register
-            </Link>
-            <Link className="m-1 text-decoration-none" to={"/chat"}>
-              chat
-            </Link>
+      
+    
             <Link className="m-1 text-decoration-none" to={"/test"}>
-              test
+              About
             </Link>
             <div
               className="m-1 text-decoration-none nav-link"

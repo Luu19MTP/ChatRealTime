@@ -1,7 +1,7 @@
 
   import ChatItem from "./ChatItem";
 
-  const ChatList = ({ users,saveUsername }) => {
+  const ChatList = ({ users,saveUsername,saveType }) => {
 
 
 
@@ -13,7 +13,7 @@
     return (
       <>
         {users.map((item, index) => (
-          <ChatItem key={index} item={item} saveUsername={saveUsername}/>
+          <ChatItem key={index} item={item} saveUsername={saveUsername} saveType={saveType}/>
         ))}
       </>
     );

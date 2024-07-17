@@ -9,7 +9,9 @@ const Test = () => {
 
   return (
     <>
-      <h1>test</h1>
+      <h1>Nhóm 34</h1>
+      <h1>Nguyễn Thanh Lưu - 21130440</h1>
+      <h1>Võ Đức Minh - 21130447</h1>
     </>
   );
 };
