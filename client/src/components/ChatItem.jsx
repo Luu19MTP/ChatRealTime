@@ -16,6 +16,7 @@ const ChatItem = ({ item, saveUsername }) => {
           <i className="fa-solid fa-circle-user fs-1 p-0"></i>
         </div>
         <div className="info flex-grow-1">
+          <span className="type">{item.type}</span>
           <div className="name">{item.name}</div>
           <div className="message">message</div>
         </div>

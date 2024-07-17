@@ -3,12 +3,9 @@ import { WebSocketContext } from "../context/WebSoket";
 import MessageList from "./MessageList";
 
 export default function ChatContent({ name }) {
-  const [messages, setMessages] = useState([]);
-  const [message, setMessage] = useState("");
   const [chats, setChats] = useState(null);
   const { connection, GetChatPeople } = useContext(WebSocketContext);
 
-  const inputRef = useRef(""); // Khởi tạo useRef với giá trị ban đầu là null
 
   useEffect(() => {
     const fetchData = async () => {
@@ -45,22 +42,6 @@ export default function ChatContent({ name }) {
   return (
     <>
       <div className="p-2 flex-grow-1 d-flex flex-column">
-        {messages.map((msg, index) => (
-          <div
-            key={index}
-            className="message"
-            style={{
-              alignSelf: msg.isMyMessage ? "flex-end" : "flex-start",
-              backgroundColor: msg.isMyMessage ? "#DCF8C6" : "#FFF",
-              borderRadius: "10px",
-              padding: "10px",
-              margin: "5px",
-              maxWidth: "60%",
-            }}
-          >
-            {msg.text}
-          </div>
-        ))}
         <MessageList chats={chats} />
       </div>
 
