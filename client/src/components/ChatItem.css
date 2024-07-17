@@ -27,3 +27,11 @@
 .wp-chat-list {
   margin-top: 134px;
 }
+
+.on-or-off.on {
+  background-color: green; /* Adjust the color as needed */
+}
+
+.on-or-off.off {
+  background-color: gray; /* Adjust the color as needed */
+}
