@@ -3,7 +3,7 @@ const MessageItem = ({ value, username }) => {
 
   return (
     <>
-      <div className="p-2 flex-grow-1 d-flex flex-column" style={{marginTop : 60}}>
+      <div className="p-2 flex-grow-1 d-flex flex-column" >
         <div
           style={{
             color: "white",

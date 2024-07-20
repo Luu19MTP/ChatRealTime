@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import ChatList from "../../components/ChatList";
 import "./Chat.css";
+// import "./Chat2.css"
 import { WebSocketContext } from "../../context/WebSoket";
 import ChatContent from "../../components/MessageContent";
 
@@ -28,6 +29,7 @@ const Chat = () => {
   // Trong Chat component
   useEffect(() => {
     fetchData();
+
   }, [login_code]);
 
   const fetchData = async () => {
@@ -50,6 +52,7 @@ const Chat = () => {
         setRooms((prevRooms) => [...prevRooms, roomName]);
         setRoomName("");
         setError("");
+        window.location.reload();
       }
     }
   };
@@ -58,6 +61,8 @@ const Chat = () => {
     if (roomName) {
       JoinRoom(roomName);
       setRoomName("");
+      window.location.reload();
+
     }
   };
 

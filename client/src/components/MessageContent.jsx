@@ -69,6 +69,7 @@ export default function ChatContent({ name, type }) {
           overflowY: "auto",
           scrollbarWidth: "none",
           msOverflowStyle: "none",
+          marginTop: 68,
         }}
         className="p-2 flex-grow-1 d-flex flex-column chat-content"
       >

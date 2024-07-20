@@ -50,7 +50,7 @@ const ChatItem = ({ item, saveUsername, saveType }) => {
           <div className="message">message</div>
         </div>
         <div className="time">
-          <span style={{ fontSize: 12 }}>11:11</span>
+          <span style={{ fontSize: 12 }}>{item.createAt}</span>
         </div>
       </div>
     </>

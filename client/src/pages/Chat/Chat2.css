@@ -1,0 +1,135 @@
+.container-fluid {
+    background-color: #2b3a42;
+    color: #fff;
+  }
+  
+  .left, .right, .col-2 {
+    background-color: #34495e;
+    color: #fff;
+  }
+  
+  .left {
+    overflow-y: auto;
+  }
+  
+  .right {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .input[type="search"] {
+    background-color: #2c3e50;
+    color: #ecf0f1;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 12px;
+  }
+  
+  .css-room input[type="text"] {
+    background-color: #2c3e50;
+    color: #ecf0f1;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 12px;
+  }
+  
+  .css-room button {
+    margin-right: 8px;
+  }
+  
+  .btn-primary {
+    background-color: #2980b9;
+    border: none;
+  }
+  
+  .btn-secondary {
+    background-color: #7f8c8d;
+    border: none;
+  }
+  
+  .text-danger {
+    color: #e74c3c;
+  }
+  
+  .avatar i {
+    font-size: 24px;
+    color: #ecf0f1;
+  }
+  
+  .info__chat {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    background-color: #3b4b54;
+  }
+  
+  .info__chat .avatar i {
+    font-size: 32px;
+    margin-right: 12px;
+  }
+  
+  .info__chat .flex-grow-1 {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .info__chat .name {
+    font-size: 16px;
+    font-weight: bold;
+  }
+  
+  .info__chat .type {
+    font-size: 14px;
+    color: #7f8c8d;
+  }
+  
+  .info__chat .detail i {
+    font-size: 20px;
+    color: #ecf0f1;
+  }
+  
+  .list-unstyled {
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+  }
+  
+  .list-unstyled .d-flex {
+    align-items: center;
+    padding: 8px 12px;
+    transition: background-color 0.2s;
+  }
+  
+  .list-unstyled .d-flex:hover {
+    background-color: #2c3e50;
+  }
+  
+  .list-unstyled .avatar i {
+    font-size: 24px;
+  }
+  
+  .list-unstyled .info {
+    flex-grow: 1;
+    margin-left: 12px;
+  }
+  
+  .list-unstyled .name {
+    font-size: 14px;
+    font-weight: bold;
+  }
+  
+  .list-unstyled .message {
+    font-size: 12px;
+    color: #95a5a6;
+  }
+  
+  .list-unstyled .time span {
+    font-size: 12px;
+    color: #95a5a6;
+  }
+  
+  .member {
+    padding: 12px;
+    background-color: #34495e;
+  }
+  
